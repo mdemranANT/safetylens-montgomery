@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafetyLens Montgomery — Pitch Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #0e1117;
+            color: #c9d1d9;
+            overflow-x: hidden;
+        }
+
+        /* Slide System */
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 3rem;
+            position: relative;
+        }
+
+        .slide::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            right: 10%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e94560, transparent);
+        }
+
+        .slide-content {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        /* Slide 1: Title */
+        .slide-title {
+            background: linear-gradient(135deg, #0e1117 0%, #1a1a2e 40%, #0f3460 100%);
+            text-align: center;
+        }
+
+        .slide-title h1 {
+            font-size: 4rem;
+            color: #fff;
+            margin-bottom: 0.3rem;
+        }
+
+        .slide-title h1 span {
+            color: #e94560;
+        }
+
+        .slide-title .tagline {
+            font-size: 1.5rem;
+            color: #a8b2d1;
+            margin-bottom: 2rem;
+        }
+
+        .slide-title .hackathon-label {
+            display: inline-block;
+            background: #e94560;
+            color: #fff;
+            padding: 8px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tags-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 1.5rem;
+        }
+
+        .tag {
+            background: #16213e;
+            color: #e94560;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            border: 1px solid #e9456044;
+        }
+
+        /* Common */
+        h2 {
+            font-size: 2.4rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        h2 span {
+            color: #e94560;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: #e94560;
+            margin-bottom: 0.8rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #a8b2d1;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Problem/Solution Cards */
+        .problem-solution {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .ps-card {
+            background: #16213e;
+            border-radius: 16px;
+            padding: 2rem;
+            border-top: 4px solid;
+        }
+
+        .ps-card.problem {
+            border-color: #ff6b6b;
+        }
+
+        .ps-card.solution {
+            border-color: #51cf66;
+        }
+
+        .ps-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .ps-card.problem h3 {
+            color: #ff6b6b;
+        }
+
+        .ps-card.solution h3 {
+            color: #51cf66;
+        }
+
+        .ps-card ul {
+            list-style: none;
+        }
+
+        .ps-card li {
+            padding: 8px 0;
+            font-size: 1.05rem;
+            border-bottom: 1px solid #0e111722;
+        }
+
+        .ps-card li::before {
+            margin-right: 8px;
+        }
+
+        .ps-card.problem li::before {
+            content: '❌';
+        }
+
+        .ps-card.solution li::before {
+            content: '✅';
+        }
+
+        .arrow {
+            font-size: 3rem;
+            color: #e94560;
+        }
+
+        /* Challenge Areas Grid */
+        .challenge-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .challenge-card {
+            background: #16213e;
+            border-radius: 14px;
+            padding: 1.5rem;
+            border-left: 4px solid #e94560;
+            transition: transform 0.2s;
+        }
+
+        .challenge-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .challenge-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .challenge-card h4 {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .challenge-card p {
+            color: #a8b2d1;
+            font-size: 0.95rem;
+        }
+
+        /* Architecture */
+        .arch-flow {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .arch-box {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            text-align: center;
+            min-width: 280px;
+        }
+
+        .arch-box.highlight {
+            border-color: #e94560;
+            background: #1a1a2e;
+        }
+
+        .arch-box h4 {
+            color: #e94560;
+            margin-bottom: 4px;
+        }
+
+        .arch-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .arch-arrow {
+            color: #e94560;
+            font-size: 1.8rem;
+        }
+
+        .data-source {
+            background: #0f3460;
+            border-radius: 10px;
+            padding: 0.8rem 1.2rem;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .data-source .icon {
+            font-size: 1.5rem;
+        }
+
+        .data-source p {
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        /* Demo Screenshots */
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .demo-card {
+            background: #16213e;
+            border-radius: 14px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .demo-card .screen {
+            background: #0e1117;
+            border-radius: 10px;
+            padding: 1.2rem;
+            margin-top: 0.8rem;
+            border: 1px solid #0f3460;
+            text-align: left;
+            font-size: 0.85rem;
+            min-height: 180px;
+        }
+
+        .demo-card .screen .chat-bubble {
+            background: #0f3460;
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin: 6px 0;
+            font-size: 0.85rem;
+        }
+
+        .demo-card .screen .ai-bubble {
+            background: #1a1a2e;
+            border: 1px solid #0f3460;
+            padding: 8px 12px;
+            border-radius: 10px;
+            margin: 6px 0;
+            font-size: 0.85rem;
+        }
+
+        /* Perception Gap */
+        .gap-visual {
+            display: grid;
+            grid-template-columns: 1fr 100px 1fr;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .gap-col {
+            background: #16213e;
+            border-radius: 14px;
+            padding: 1.5rem;
+        }
+
+        .gap-col.reality {
+            border-top: 4px solid #00b4d8;
+        }
+
+        .gap-col.media {
+            border-top: 4px solid #e94560;
+        }
+
+        .gap-col h4.reality-h {
+            color: #00b4d8;
+        }
+
+        .gap-col h4.media-h {
+            color: #e94560;
+        }
+
+        .gap-vs {
+            text-align: center;
+        }
+
+        .gap-vs span {
+            display: inline-block;
+            background: #e94560;
+            color: white;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            line-height: 70px;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #0e1117;
+        }
+
+        .stat-label {
+            color: #a8b2d1;
+        }
+
+        .stat-value {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Tech Stack */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .tech-card {
+            background: #16213e;
+            border-radius: 12px;
+            padding: 1.2rem;
+            text-align: center;
+        }
+
+        .tech-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-card h4 {
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .tech-card p {
+            color: #a8b2d1;
+            font-size: 0.8rem;
+        }
+
+        /* Judging Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        th {
+            background: #0f3460;
+            color: #e94560;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #1a1a2e;
+            font-size: 1rem;
+        }
+
+        tr:hover td {
+            background: #16213e;
+        }
+
+        .score {
+            color: #51cf66;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .bonus {
+            color: #e94560;
+            font-weight: 700;
+        }
+
+        /* CTA */
+        .cta-box {
+            background: linear-gradient(135deg, #e94560 0%, #0f3460 100%);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .cta-box h2 {
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .cta-box p {
+            color: #ffffffcc;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            background: #fff;
+            color: #e94560;
+            padding: 14px 36px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            margin: 8px;
+            transition: transform 0.2s;
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .cta-btn.secondary {
+            background: transparent;
+            border: 2px solid #fff;
+            color: #fff;
+        }
+
+        /* Nav dots */
+        .nav-dots {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #333;
+            border: 2px solid #555;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-dot:hover,
+        .nav-dot.active {
+            background: #e94560;
+            border-color: #e94560;
+        }
+
+        /* Slide number */
+        .slide-num {
+            position: absolute;
+            bottom: 20px;
+            right: 40px;
+            color: #333;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+
+            .problem-solution,
+            .gap-visual {
+                grid-template-columns: 1fr;
+            }
+
+            .challenge-grid,
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .arrow,
+            .gap-vs {
+                display: none;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .slide-title h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Nav Dots -->
+    <div class="nav-dots">
+        <div class="nav-dot active" onclick="goSlide(0)" title="Title"></div>
+        <div class="nav-dot" onclick="goSlide(1)" title="Problem & Solution"></div>
+        <div class="nav-dot" onclick="goSlide(2)" title="Challenge Areas"></div>
+        <div class="nav-dot" onclick="goSlide(3)" title="Architecture"></div>
+        <div class="nav-dot" onclick="goSlide(4)" title="Live Demo"></div>
+        <div class="nav-dot" onclick="goSlide(5)" title="Perception Gap"></div>
+        <div class="nav-dot" onclick="goSlide(6)" title="Tech Stack"></div>
+        <div class="nav-dot" onclick="goSlide(7)" title="Scoring"></div>
+        <div class="nav-dot" onclick="goSlide(8)" title="Thank You"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- SLIDE 1: TITLE -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="slide slide-title" id="s0">
+        <div class="slide-content">
+            <div class="hackathon-label">WWV 2026 HACKATHON</div>
+            <h1>🔍 <span>SafetyLens</span> Montgomery</h1>
+            <p class="tagline">AI-Powered City Intelligence Platform</p>
+            <p style="color:#a8b2d1; font-size:1.1rem; margin-bottom:1rem;">
+                An intelligent LangGraph agent that turns Montgomery's open data into<br>
+                actionable insights — and reveals the gap between reality and public perception.
+            </p>
+            <div class="tags-row">
+                <span class="tag">🚨 Public Safety</span>
+                <span class="tag">🏛️ Civic Access</span>
+                <span class="tag">💼 Economic Growth</span>
+                <span class="tag">🏗️ Smart Cities</span>
+            </div>
+        </div>
+        <div class="slide-num">1 / 9</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- SLIDE 2: PROBLEM & SOLUTION -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="slide" id="s1">
+        <div class="slide-content">
+            <h2>The <span>Problem</span> & Our <span>Solution</span></h2>
+            <div class="problem-solution">
+                <div class="ps-card problem">
+                    <h3>❌ The Problem</h3>
+                    <ul>
+                        <li>Montgomery's city data is scattered across multiple portals</li>
+                        <li>Residents can't easily query or understand 911/safety data</li>
+                        <li>Media coverage skews public perception of safety</li>
+                        <li>City officials lack tools to compare perception vs reality</li>
+                        <li>35% of 911 calls are non-emergency — wasting resources</li>
+                    </ul>
+                </div>
+                <div class="arrow">→</div>
+                <div class="ps-card solution">
+                    <h3>✅ SafetyLens Solution</h3>
+                    <ul>
+                        <li>AI agent unifies 5 city datasets in natural language</li>
+                        <li>Ask any question in plain English — get data-driven answers</li>
+                        <li>Bright Data scrapes news to compare perception vs data</li>
+                        <li>Interactive dashboards reveal actionable patterns</li>
+                        <li>Recommends 311 diversion to reduce 911 overload by ~35%</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">2 / 9</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- SLIDE 3: CHALLENGE AREAS -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="slide" id="s2">
+        <div class="slide-content">
+            <h2>Addresses <span>All 4</span> Challenge Areas</h2>
+            <p class="subtitle">SafetyLens is uniquely positioned to cover every track</p>
+            <div class="challenge-grid">
+                <div class="challenge-card">
+                    <div class="icon">🚨</div>
+                    <h4>Public Safety, Emergency Response & City Analytics</h4>
+                    <p>Analyzes 911 call patterns, detects trends, compares emergency vs non-emergency volumes, and
+                        identifies response optimization opportunities.</p>
+                </div>
+                <div class="challenge-card">
+                    <div class="icon">🏛️</div>
+                    <h4>Civic Access & Community Communication</h4>
+                    <p>Natural language AI interface — any resident can ask questions about city data in plain English.
+                        No technical skills needed.</p>
+                </div>
+                <div class="challenge-card">
+                    <div class="icon">💼</div>
+                    <h4>Workforce, Business & Economic Growth</h4>
+                    <p>Business license analytics cross-referenced with code violations. Identifies areas for targeted
+                        economic development.</p>
+                </div>
+                <div class="challenge-card">
+                    <div class="icon">🏗️</div>
+                    <h4>Smart Cities, Infrastructure & Public Spaces</h4>
+                    <p>311 service request analysis reveals infrastructure gaps. Code violation mapping highlights areas
+                        needing attention.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">3 / 9</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- SLIDE 4: ARCHITECTURE -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="slide" id="s3">
+        <div class="slide-content">
+            <h2>How It <span>Works</span></h2>
+            <p class="subtitle">LangGraph ReAct Agent with 8 specialized tools</p>
+            <div class="arch-flow">
+                <div class="arch-box highlight">
+                    <h4>👤 User Query</h4>
+                    <p>"What are the 911 trends in Montgomery?"</p>
+                </div>
+                <div class="arch-arrow">▼</div>
+                <div class="arch-box highlight">
+                    <h4>🧠 LangGraph Agent (ReAct Pattern)</h4>
+                    <p>Plans → Selects Tools → Executes → Reasons → Responds</p>
+                </div>
+                <div class="arch-arrow">▼</div>
+                <div class="arch-row">
+                    <div class="data-source">
+                        <div class="icon">📞</div>
+                        <p><strong>911 Calls</strong><br>Monthly + Daily</p>
+                    </div>
+                    <div class="data-source">
+                        <div class="icon">🏢</div>
+                        <p><strong>Business<br>Licenses</strong></p>
+                    </div>
+                    <div class="data-source">
+                        <div class="icon">⚠️</div>
+                        <p><strong>Code<br>Violations</strong></p>
+                    </div>
+                    <div class="data-source">
+                        <div class="icon">📋</div>
+                        <p><strong>311<br>Requests</strong></p>
+                    </div>
+                    <div class="data-source" style="background:#e94560;">
+                        <div class="icon">📰</div>
+                        <p><strong>Bright Data</strong><br>News Scraping</p>
+                    </div>
+                </div>
+                <div class="arch-arrow">▼</div>
+                <div class="arch-box highlight">
+                    <h4>📊 AI Analysis + Interactive Dashboard</h4>
+                    <p>Data-driven insights, visualizations, and actionable recommendations</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">4 / 9</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- SLIDE 5: LIVE DEMO SCREENS -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="slide" id="s4">
+        <div class="slide-content">
+            <h2>Live <span>Demo</span> — 6 Interactive Pages</h2>
+            <p class="subtitle">Streamlit app querying Montgomery's real data in real-time</p>
+            <div class="demo-grid">
+                <div class="demo-card">
+                    <h3>💬 AI Chat Agent</h3>
+                    <div class="screen">
+                        <div class="chat-bubble">👤 "What are the 911 call trends?"</div>
+                        <div class="ai-bubble">🔍 I've analyzed the data. Emergency calls average 22,575/month. Wireless
+                            calls dominate at 86.2%. Non-emergency calls are 35% — recommend 311 diversion campaign...
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>📊 911 Analytics Dashboard</h3>
+                    <div class="screen">
+                        <p style="color:#e94560; font-size:1.5rem; font-weight:700;">22,575</p>
+                        <p style="font-size:0.8rem; color:#777;">Avg Monthly Calls</p>
+                        <div
+                            style="margin-top:12px; height:80px; background: linear-gradient(90deg, #e94560 65%, #0f3460 35%); border-radius:8px; display:flex; align-items:center; padding:0 12px;">
+                            <span style="color:#fff; font-size:0.8rem;">Emergency 65% | Non-Emergency 35%</span>
+                        </div>
+                        <p style="margin-top:8px; font-size:0.8rem;">📈 Interactive trend lines, pie charts, provider
+                            breakdown</p>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>🏢 Business & Code Analysis</h3>
+                    <div class="screen">
+                        <p>📋 <strong>500+</strong> Business Licenses</p>
+                        <p>⚠️ <strong>300+</strong> Code Violations</p>
+                        <p style="margin-top:12px; font-size:0.85rem;">Cross-references business density with violation
+                            hotspots to identify economic development opportunities</p>
+                    </div>
+                </div>
+                <div class="demo-card">
+                    <h3>📰 Perception vs Reality</h3>
+                    <div class="screen">
+                        <div style="display:flex; gap:8px;">
+                            <div style="flex:1;background:#00b4d822;border-radius:6px;padding:8px;text-align:center;">
+                                <p style="color:#00b4d8;font-weight:700;font-size:0.8rem;">REALITY</p>
+                                <p style="font-size:0.75rem;">Stable 911 trends<br>Mostly non-violent</p>
+                            </div>
+                            <div style="flex:1;background:#e9456022;border-radius:6px;padding:8px;text-align:center;">
+                                <p style="color:#e94560;font-weight:700;font-size:0.8rem;">MEDIA</p>
+                                <p style="font-size:0.75rem;">Violent crime focus<br>Crisis narrative</p>
+                            </div>
+                        </div>
+                        <p style="margin-top:8px; font-size:0.8rem; color:#e94560;">⚡ Bright Data reveals the perception
+                            gap</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">5 / 9</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- SLIDE 6: PERCEPTION GAP -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="slide" id="s5">
+        <div class="slide-content">
+            <h2>The <span>Perception Gap</span> — Our Key Insight</h2>
+            <p class="subtitle">Bright Data news scraping reveals what the data actually says vs. what people believe
+            </p>
+            <div class="gap-visual">
+                <div class="gap-col reality">
+                    <h4 class="reality-h">📊 Reality (911 Data)</h4>
+                    <div class="stat-row"><span class="stat-label">Most 911 calls</span><span class="stat-value">Medical
+                            / Admin / Welfare</span></div>
+                    <div class="stat-row"><span class="stat-label">Emergency trend</span><span class="stat-value">Stable
+                            month-to-month</span></div>
+                    <div class="stat-row"><span class="stat-label">Non-emergency %</span><span class="stat-value">35% of
+                            all calls</span></div>
+                    <div class="stat-row"><span class="stat-label">City services</span><span class="stat-value">Active
+                            311, Fire, Code</span></div>
+                    <div class="stat-row"><span class="stat-label">Technology shift</span><span class="stat-value">86%
+                            now wireless</span></div>
+                </div>
+                <div class="gap-vs"><span>VS</span></div>
+                <div class="gap-col media">
+                    <h4 class="media-h">📰 Perception (News Media)</h4>
+                    <div class="stat-row"><span class="stat-label">Focus of coverage</span><span class="stat-value"
+                            style="color:#e94560;">Violent crime only</span></div>
+                    <div class="stat-row"><span class="stat-label">Implied trend</span><span class="stat-value"
+                            style="color:#e94560;">Escalating crisis</span></div>
+                    <div class="stat-row"><span class="stat-label">Non-emergency</span><span class="stat-value"
+                            style="color:#e94560;">Never mentioned</span></div>
+                    <div class="stat-row"><span class="stat-label">City services</span><span class="stat-value"
+                            style="color:#e94560;">Invisible in media</span></div>
+                    <div class="stat-row"><span class="stat-label">Technology</span><span class="stat-value"
+                            style="color:#e94560;">Not covered</span></div>
+                </div>
+            </div>
+            <div style="text-align:center; margin-top:1.5rem; padding:1rem; background:#16213e; border-radius:12px;">
+                <p style="font-size:1.1rem;"><strong style="color:#e94560;">💡 Recommendation:</strong> Montgomery
+                    should publish monthly data-driven safety dashboards to close the perception gap and improve public
+                    confidence.</p>
+            </div>
+        </div>
+        <div class="slide-num">6 / 9</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- SLIDE 7: TECH STACK -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="slide" id="s6">
+        <div class="slide-content">
+            <h2><span>Tech Stack</span> & Data Sources</h2>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="icon">🧠</div>
+                    <h4>LangGraph</h4>
+                    <p>Multi-step AI agent with ReAct pattern</p>
+                </div>
+                <div class="tech-card">
+                    <div class="icon">🤖</div>
+                    <h4>OpenAI GPT-4</h4>
+                    <p>Reasoning & analysis engine</p>
+                </div>
+                <div class="tech-card">
+                    <div class="icon">🖥️</div>
+                    <h4>Streamlit</h4>
+                    <p>Interactive web dashboard</p>
+                </div>
+                <div class="tech-card">
+                    <div class="icon">🗺️</div>
+                    <h4>ArcGIS REST</h4>
+                    <p>Montgomery Open Data API</p>
+                </div>
+                <div class="tech-card" style="border: 2px solid #e94560;">
+                    <div class="icon">📰</div>
+                    <h4>Bright Data</h4>
+                    <p>News scraping (+3 bonus)</p>
+                </div>
+                <div class="tech-card">
+                    <div class="icon">📊</div>
+                    <h4>Plotly</h4>
+                    <p>Interactive visualizations</p>
+                </div>
+                <div class="tech-card">
+                    <div class="icon">🐍</div>
+                    <h4>Python</h4>
+                    <p>Pandas, httpx, dotenv</p>
+                </div>
+                <div class="tech-card">
+                    <div class="icon">📡</div>
+                    <h4>5 Live APIs</h4>
+                    <p>Real-time city data</p>
+                </div>
+            </div>
+            <div style="background:#16213e; border-radius:12px; padding:1.5rem; margin-top:1.5rem; text-align:center;">
+                <p style="font-size:1.05rem;"><strong style="color:#e94560;">8 custom tools</strong> built for the
+                    LangGraph agent: query_911_monthly, query_911_daily, query_business_licenses, query_code_violations,
+                    query_311_requests, get_dataset_fields, scrape_montgomery_news, compute_statistics</p>
+            </div>
+        </div>
+        <div class="slide-num">7 / 9</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- SLIDE 8: JUDGING ALIGNMENT -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="slide" id="s7">
+        <div class="slide-content">
+            <h2>Scoring <span>Alignment</span></h2>
+            <p class="subtitle">How SafetyLens maximizes every judging criterion</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Criteria</th>
+                        <th>Max</th>
+                        <th>Our Strategy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Consistency with Challenge</strong></td>
+                        <td class="score">/10</td>
+                        <td>Addresses ALL 4 challenge areas with live Montgomery data — 911 analysis, civic access,
+                            business intelligence, infrastructure</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Quality & Design</strong></td>
+                        <td class="score">/10</td>
+                        <td>Production-grade LangGraph agent (8 tools), Plotly charts, polished dark-theme UI, real-time
+                            API queries</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Originality</strong></td>
+                        <td class="score">/5</td>
+                        <td>AI agent that <em>reasons</em> over data (not just displays) + perception gap analysis is
+                            unique in the market</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Social Value / Impact</strong></td>
+                        <td class="score">/5</td>
+                        <td>Empowers residents to understand safety data, helps city optimize emergency resources and
+                            reduce 911 overload</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Commercialization</strong></td>
+                        <td class="score">/5</td>
+                        <td>Platform model — any city with an open data portal can deploy SafetyLens. SaaS opportunity
+                            for municipalities</td>
+                    </tr>
+                    <tr style="background:#e9456022;">
+                        <td class="bonus"><strong>Bright Data Bonus</strong></td>
+                        <td class="bonus">+3</td>
+                        <td class="bonus">✅ Integrated — real-time SERP API for news scraping and perception analysis
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="text-align:center; margin-top:1rem;">
+                <span
+                    style="background:#e94560; color:#fff; padding:10px 30px; border-radius:25px; font-size:1.3rem; font-weight:700;">Total
+                    Potential: 38 / 35 points</span>
+            </div>
+        </div>
+        <div class="slide-num">8 / 9</div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- SLIDE 9: CTA -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <div class="slide" id="s8" style="min-height:100vh;">
+        <div class="slide-content">
+            <div class="cta-box">
+                <h2>🔍 SafetyLens Montgomery</h2>
+                <p>See the full picture of your city.<br>Data-driven. AI-powered. Perception-aware.</p>
+                <a href="https://mdemranant.github.io/safetylens-montgomery/demo.html" class="cta-btn"
+                    target="_blank">🖥️ Live Demo</a>
+                <a href="https://github.com/mdemranANT/safetylens-montgomery" class="cta-btn secondary"
+                    target="_blank">📂 GitHub Repo</a>
+                <div style="margin-top:2rem; color:#ffffffaa; font-size:0.95rem;">
+                    <p>Built for WWV 2026 Hackathon</p>
+                    <p style="margin-top:0.3rem;">Data: City of Montgomery Open Data Portal | AI: LangGraph + GPT-4 |
+                        Scraping: Bright Data</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-num">9 / 9</div>
+    </div>
+
+    <script>
+        function goSlide(n) {
+            document.getElementById('s' + n).scrollIntoView({ behavior: 'smooth' });
+        }
+        // Update active dot on scroll
+        window.addEventListener('scroll', () => {
+            const slides = document.querySelectorAll('.slide');
+            const dots = document.querySelectorAll('.nav-dot');
+            let current = 0;
+            slides.forEach((s, i) => {
+                if (window.scrollY >= s.offsetTop - window.innerHeight / 2) current = i;
+            });
+            dots.forEach((d, i) => d.classList.toggle('active', i === current));
+        });
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const slides = document.querySelectorAll('.slide');
+            let current = 0;
+            slides.forEach((s, i) => {
+                if (window.scrollY >= s.offsetTop - 100) current = i;
+            });
+            if ((e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === ' ') && current < slides.length - 1) {
+                e.preventDefault();
+                goSlide(current + 1);
+            }
+            if ((e.key === 'ArrowUp' || e.key === 'ArrowLeft') && current > 0) {
+                e.preventDefault();
+                goSlide(current - 1);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
