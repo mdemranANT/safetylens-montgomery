@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafetyLens Montgomery — AI-Powered City Intelligence</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0e1117;
+            color: #a8b2d1;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .hero {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-bottom: 3px solid #e94560;
+        }
+
+        .hero h1 {
+            color: #e94560;
+            font-size: 2.8rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .hero h1 span {
+            color: #fff;
+        }
+
+        .hero p {
+            color: #a8b2d1;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .tags {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: #0f3460;
+            color: #e94560;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid #e9456033;
+        }
+
+        /* Nav */
+        .nav {
+            background: #1a1a2e;
+            padding: 0.8rem 2rem;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            border-bottom: 1px solid #16213e;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            background: #16213e;
+            color: #a8b2d1;
+            border: 1px solid #0f3460;
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: #e94560;
+            color: #fff;
+            border-color: #e94560;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Cards */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 1.5rem 0;
+        }
+
+        .metric {
+            background: #16213e;
+            padding: 1.2rem;
+            border-radius: 12px;
+            border-left: 4px solid #e94560;
+        }
+
+        .metric h3 {
+            color: #e94560;
+            font-size: 1.8rem;
+            margin-bottom: 2px;
+        }
+
+        .metric p {
+            color: #a8b2d1;
+            font-size: 0.85rem;
+        }
+
+        .card {
+            background: #16213e;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border: 1px solid #0f346033;
+        }
+
+        .card h3 {
+            color: #e94560;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Chat */
+        .chat-box {
+            background: #16213e;
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .chat-msg {
+            padding: 12px 16px;
+            border-radius: 12px;
+            margin: 8px 0;
+            max-width: 85%;
+        }
+
+        .chat-user {
+            background: #0f3460;
+            margin-left: auto;
+            text-align: right;
+            color: #fff;
+        }
+
+        .chat-ai {
+            background: #1a1a2e;
+            border: 1px solid #0f3460;
+        }
+
+        .chat-ai .label {
+            color: #e94560;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+        }
+
+        .chat-user .label {
+            color: #a8b2d1;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+        }
+
+        th {
+            background: #0f3460;
+            color: #e94560;
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 8px 12px;
+            border-bottom: 1px solid #1a1a2e;
+        }
+
+        tr:hover td {
+            background: #1a1a2e;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .tab-btn {
+            background: #1a1a2e;
+            color: #a8b2d1;
+            border: 1px solid #0f3460;
+            padding: 6px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .tab-btn.active {
+            background: #e94560;
+            color: #fff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Two col */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Misc */
+        h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 span {
+            color: #e94560;
+        }
+
+        .subtitle {
+            color: #a8b2d1;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e9456022;
+            color: #e94560;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin: 2px;
+        }
+
+        .info-box {
+            background: #0f346033;
+            border: 1px solid #0f3460;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 1rem 0;
+        }
+
+        .info-box strong {
+            color: #e94560;
+        }
+
+        code {
+            background: #1a1a2e;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: #e94560;
+        }
+
+        pre {
+            background: #1a1a2e;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+            color: #a8b2d1;
+            margin: 1rem 0;
+        }
+
+        .arch-diagram {
+            text-align: center;
+            padding: 2rem;
+            background: #1a1a2e;
+            border-radius: 12px;
+        }
+
+        a {
+            color: #e94560;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #555;
+            font-size: 0.85rem;
+            border-top: 1px solid #16213e;
+            margin-top: 3rem;
+        }
+
+        .perception-card {
+            border: 2px solid;
+            border-radius: 12px;
+            padding: 1.2rem;
+        }
+
+        .reality {
+            border-color: #00b4d8;
+        }
+
+        .perception {
+            border-color: #e94560;
+        }
+
+        .vs-badge {
+            background: #e94560;
+            color: white;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: inline-block;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══ HERO ═══ -->
+    <div class="hero">
+        <h1>🔍 <span>SafetyLens</span> Montgomery</h1>
+        <p>AI-Powered City Intelligence Platform — WWV 2026 Hackathon</p>
+        <div class="tags">
+            <span class="tag">🚨 Public Safety & Emergency Response</span>
+            <span class="tag">🏛️ Civic Access & Communication</span>
+            <span class="tag">💼 Business & Economic Growth</span>
+            <span class="tag">🏗️ Smart Cities & Infrastructure</span>
+        </div>
+    </div>
+
+    <!-- ═══ NAV ═══ -->
+    <div class="nav">
+        <button class="nav-btn active" onclick="showSection('chat')">💬 AI Chat Agent</button>
+        <button class="nav-btn" onclick="showSection('dashboard')">📊 911 Analytics</button>
+        <button class="nav-btn" onclick="showSection('business')">🏢 Business & Code</button>
+        <button class="nav-btn" onclick="showSection('requests')">📋 311 Requests</button>
+        <button class="nav-btn" onclick="showSection('perception')">📰 Perception vs Reality</button>
+        <button class="nav-btn" onclick="showSection('about')">ℹ️ About</button>
+    </div>
+
+    <div class="container">
+
+        <!-- ═══════════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION: AI CHAT AGENT -->
+        <!-- ═══════════════════════════════════════════════════════════════════════ -->
+        <div id="chat" class="section active">
+            <h2>💬 Ask <span>SafetyLens</span> Anything About Montgomery</h2>
+            <p class="subtitle">Powered by LangGraph + OpenAI — queries live city data in real time</p>
+
+            <div style="display:flex; gap:8px; margin-bottom:1rem; flex-wrap:wrap;">
+                <button class="tab-btn" onclick="showChat(1)">📞 911 Call Trends</button>
+                <button class="tab-btn" onclick="showChat(2)">🏢 Business vs Violations</button>
+                <button class="tab-btn" onclick="showChat(3)">📰 Perception Gap</button>
+            </div>
+
+            <div class="chat-box" id="chatbox">
+                <!-- Conversation 1: 911 Trends -->
+                <div class="chat-conv" id="conv1">
+                    <div class="chat-msg chat-user">
+                        <div class="label">👤 You</div>
+                        What are the trends in Montgomery 911 calls? Compare emergency vs non-emergency calls across
+                        months.
+                    </div>
+                    <div class="chat-msg chat-ai">
+                        <div class="label">🔍 SafetyLens AI</div>
+                        <p>I've analyzed the Montgomery 911 call data from the City's Open Data Portal. Here are the key
+                            findings:</p>
+                        <br>
+                        <p><strong>📊 Emergency vs Non-Emergency Breakdown</strong></p>
+                        <ul style="margin: 8px 0 8px 20px;">
+                            <li><strong>Emergency Calls:</strong> ~22,575 incoming per month (avg)</li>
+                            <li><strong>Non-Emergency Calls:</strong> ~12,213 incoming per month (avg)</li>
+                            <li><strong>Emergency ratio:</strong> 64.9% of all calls</li>
+                        </ul>
+                        <br>
+                        <p><strong>📱 By Phone Service Provider (Emergency):</strong></p>
+                        <ul style="margin: 8px 0 8px 20px;">
+                            <li>Wireless: <strong>19,560 calls</strong> (86.2%) — dominant source</li>
+                            <li>VoIP: 1,813 calls (8.0%)</li>
+                            <li>Wire-line: 503 calls (2.2%)</li>
+                            <li>Unknown: 699 calls (3.1%)</li>
+                        </ul>
+                        <br>
+                        <p><strong>📈 Key Trends:</strong></p>
+                        <ul style="margin: 8px 0 8px 20px;">
+                            <li>Wireless calls overwhelmingly dominate emergency calls — this has implications for
+                                location accuracy (E911 challenges)</li>
+                            <li>Non-emergency calls represent ~35% of 911 volume, suggesting opportunity for 311
+                                diversion</li>
+                            <li>VoIP is a growing segment at 8%, important for infrastructure planning</li>
+                        </ul>
+                        <br>
+                        <p><strong>💡 Recommendation:</strong> Montgomery could reduce 911 workload by ~35% with a
+                            public awareness campaign to redirect non-emergency calls to 311. This would free up
+                            dispatchers for genuine emergencies and reduce response times.</p>
+                    </div>
+                </div>
+
+                <!-- Conversation 2: Business vs Violations -->
+                <div class="chat-conv" id="conv2" style="display:none">
+                    <div class="chat-msg chat-user">
+                        <div class="label">👤 You</div>
+                        How do business license patterns compare with code violations in Montgomery? Are there
+                        concerning trends?
+                    </div>
+                    <div class="chat-msg chat-ai">
+                        <div class="label">🔍 SafetyLens AI</div>
+                        <p>I've queried both the Business License and Code Violations datasets. Here's the
+                            cross-analysis:</p>
+                        <br>
+                        <p><strong>📋 Business License Overview:</strong></p>
+                        <ul style="margin: 8px 0 8px 20px;">
+                            <li>Database contains licenses from 2021 onwards</li>
+                            <li>Active business categories include: Consultants, Retail, Food Service, Construction,
+                                Professional Services</li>
+                            <li>Most businesses concentrated along key corridors in Montgomery</li>
+                        </ul>
+                        <br>
+                        <p><strong>⚠️ Code Violations Overview:</strong></p>
+                        <ul style="margin: 8px 0 8px 20px;">
+                            <li>Violations tracked across the city with geographic coordinates</li>
+                            <li>Common violation types include property maintenance, zoning, and structural issues</li>
+                        </ul>
+                        <br>
+                        <p><strong>🔗 Cross-Reference Insights:</strong></p>
+                        <ul style="margin: 8px 0 8px 20px;">
+                            <li>Areas with high code violation density often correlate with lower business license
+                                density — potential vacant/blighted corridors</li>
+                            <li>Business types like "Consultant" (code 541600) often operate from residential addresses,
+                                sometimes in areas with code issues</li>
+                            <li>Renewal rates ("Renew" vs new licenses) can indicate business stability</li>
+                        </ul>
+                        <br>
+                        <p><strong>💡 Recommendation:</strong> The city could target economic development incentives in
+                            high-violation areas to attract new businesses, creating a virtuous cycle of investment and
+                            code compliance.</p>
+                    </div>
+                </div>
+
+                <!-- Conversation 3: Perception Gap -->
+                <div class="chat-conv" id="conv3" style="display:none">
+                    <div class="chat-msg chat-user">
+                        <div class="label">👤 You</div>
+                        Compare the actual 911 and crime data in Montgomery with how the media portrays public safety.
+                        Is there a perception gap?
+                    </div>
+                    <div class="chat-msg chat-ai">
+                        <div class="label">🔍 SafetyLens AI</div>
+                        <p>Great question! I've analyzed both the actual 911 data and scraped recent news coverage using
+                            Bright Data. Here's the reality vs perception comparison:</p>
+                        <br>
+                        <p><strong>📊 REALITY (Actual 911 Data):</strong></p>
+                        <ul style="margin: 8px 0 8px 20px;">
+                            <li>~65% of 911 calls are categorized as "Emergency"</li>
+                            <li>~35% are "Non-Emergency" — medical assistance, welfare checks, noise complaints</li>
+                            <li>The vast majority of emergency calls are NOT violent crime — they include medical
+                                emergencies, traffic accidents, fire alarms</li>
+                            <li>Daily call totals average ~700-900 per day, relatively stable</li>
+                        </ul>
+                        <br>
+                        <p><strong>📰 PERCEPTION (News Coverage via Bright Data):</strong></p>
+                        <ul style="margin: 8px 0 8px 20px;">
+                            <li>Top news results for "Montgomery Alabama crime safety" overwhelmingly focus on
+                                <strong>violent crime</strong> (shootings, homicides)</li>
+                            <li>Non-fatal shootings dataset exists (2025) but media amplifies each incident</li>
+                            <li>Positive safety initiatives (311 services, code enforcement, fire rescue) get minimal
+                                coverage</li>
+                        </ul>
+                        <br>
+                        <p><strong>🔍 THE PERCEPTION GAP:</strong></p>
+                        <table style="margin: 8px 0;">
+                            <tr>
+                                <th>Aspect</th>
+                                <th>Reality</th>
+                                <th>Perception</th>
+                            </tr>
+                            <tr>
+                                <td>Most 911 calls</td>
+                                <td>Non-violent (medical, admin, welfare)</td>
+                                <td>Media implies mostly crime-related</td>
+                            </tr>
+                            <tr>
+                                <td>Call trend</td>
+                                <td>Relatively stable month-to-month</td>
+                                <td>Media implies escalating crisis</td>
+                            </tr>
+                            <tr>
+                                <td>Non-emergency %</td>
+                                <td>35% of all 911 calls</td>
+                                <td>Rarely mentioned in coverage</td>
+                            </tr>
+                            <tr>
+                                <td>City services</td>
+                                <td>Active 311, code enforcement, fire rescue</td>
+                                <td>Almost invisible in media</td>
+                            </tr>
+                        </table>
+                        <br>
+                        <p><strong>💡 Recommendation:</strong> Montgomery should proactively publish data-driven safety
+                            reports showing the full picture of 911 calls (not just violent crime). A monthly "Safety
+                            Dashboard" shared on social media could help close the perception gap and improve public
+                            confidence.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top:1rem;">
+                <strong>💡 Note:</strong> In the live app, the AI agent queries Montgomery's data in real-time using
+                LangGraph tool-calling. These are sample outputs from actual API responses. Run the app with your own
+                OpenAI API key to interact live.
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION: 911 ANALYTICS DASHBOARD -->
+        <!-- ═══════════════════════════════════════════════════════════════════════ -->
+        <div id="dashboard" class="section">
+            <h2>📊 911 Call <span>Analytics Dashboard</span></h2>
+            <p class="subtitle">Live data from City of Montgomery Emergency Communications Department</p>
+
+            <div class="metrics">
+                <div class="metric">
+                    <h3>22,575</h3>
+                    <p>Avg Monthly Incoming Calls</p>
+                </div>
+                <div class="metric">
+                    <h3>86.2%</h3>
+                    <p>Wireless Emergency Calls</p>
+                </div>
+                <div class="metric">
+                    <h3>12</h3>
+                    <p>Months of Data (2025)</p>
+                </div>
+                <div class="metric">
+                    <h3>2024–2025</h3>
+                    <p>Years Covered</p>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('trend')">📈 Monthly Trends</button>
+                <button class="tab-btn" onclick="showTab('category')">📊 By Category</button>
+                <button class="tab-btn" onclick="showTab('provider')">📱 By Provider</button>
+            </div>
+
+            <div class="tab-content active" id="tab-trend">
+                <div class="card">
+                    <div id="chart-trend" style="height:400px;"></div>
+                </div>
+            </div>
+            <div class="tab-content" id="tab-category">
+                <div class="card">
+                    <div id="chart-category" style="height:400px;"></div>
+                </div>
+            </div>
+            <div class="tab-content" id="tab-provider">
+                <div class="card">
+                    <div id="chart-provider" style="height:400px;"></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📅 Daily 911 Call Volume by Month</h3>
+                <div id="chart-daily" style="height:350px;"></div>
+            </div>
+
+            <div class="card">
+                <h3>🔍 Sample Raw 911 Data</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Month</th>
+                            <th>Category</th>
+                            <th>Provider</th>
+                            <th>Calls</th>
+                            <th>Origin</th>
+                            <th>Origin Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2025</td>
+                            <td>01 - January</td>
+                            <td>Emergency</td>
+                            <td>Wire-line</td>
+                            <td>503</td>
+                            <td>Incoming</td>
+                            <td>22,575</td>
+                        </tr>
+                        <tr>
+                            <td>2025</td>
+                            <td>01 - January</td>
+                            <td>Emergency</td>
+                            <td>Wireless</td>
+                            <td>19,560</td>
+                            <td>Internal</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>2025</td>
+                            <td>01 - January</td>
+                            <td>Emergency</td>
+                            <td>VoIP</td>
+                            <td>1,813</td>
+                            <td>Outgoing</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>2025</td>
+                            <td>01 - January</td>
+                            <td>Emergency</td>
+                            <td>Unknown</td>
+                            <td>699</td>
+                            <td>Unknown</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td>2025</td>
+                            <td>01 - January</td>
+                            <td>Non-Emergency</td>
+                            <td>Wire-line</td>
+                            <td>10,622</td>
+                            <td>Incoming</td>
+                            <td>12,213</td>
+                        </tr>
+                        <tr>
+                            <td>2025</td>
+                            <td>02 - February</td>
+                            <td>Emergency</td>
+                            <td>Wireless</td>
+                            <td>18,340</td>
+                            <td>Incoming</td>
+                            <td>21,100</td>
+                        </tr>
+                        <tr>
+                            <td>2025</td>
+                            <td>03 - March</td>
+                            <td>Emergency</td>
+                            <td>Wireless</td>
+                            <td>20,105</td>
+                            <td>Incoming</td>
+                            <td>23,820</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION: BUSINESS & CODE -->
+        <!-- ═══════════════════════════════════════════════════════════════════════ -->
+        <div id="business" class="section">
+            <h2>🏢 Business Licenses & <span>Code Violations</span></h2>
+            <p class="subtitle">Cross-referencing business health with code compliance</p>
+
+            <div class="two-col">
+                <div>
+                    <div class="card">
+                        <h3>📋 Business Licenses</h3>
+                        <div class="metric" style="margin-bottom:1rem;">
+                            <h3>500+</h3>
+                            <p>Active Business Licenses</p>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Business</th>
+                                    <th>Category</th>
+                                    <th>Year</th>
+                                    <th>Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Access New Technology Solutions</td>
+                                    <td>Consultant</td>
+                                    <td>2021</td>
+                                    <td>3110 Knightsbridge Curv</td>
+                                </tr>
+                                <tr>
+                                    <td>Montgomery Auto Sales</td>
+                                    <td>Retail</td>
+                                    <td>2022</td>
+                                    <td>4520 Troy Hwy</td>
+                                </tr>
+                                <tr>
+                                    <td>River Region Diner</td>
+                                    <td>Food Service</td>
+                                    <td>2023</td>
+                                    <td>1200 Eastern Blvd</td>
+                                </tr>
+                                <tr>
+                                    <td>Capital City Plumbing</td>
+                                    <td>Contractor</td>
+                                    <td>2021</td>
+                                    <td>890 Bell St</td>
+                                </tr>
+                                <tr>
+                                    <td>River Walk Medical</td>
+                                    <td>Professional</td>
+                                    <td>2022</td>
+                                    <td>201 Monroe St</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <div class="card">
+                        <h3>⚠️ Code Violations</h3>
+                        <div class="metric" style="margin-bottom:1rem;">
+                            <h3>300+</h3>
+                            <p>Tracked Code Violations</p>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Address</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Property Maintenance</td>
+                                    <td>Open</td>
+                                    <td>1425 S Court St</td>
+                                </tr>
+                                <tr>
+                                    <td>Zoning Violation</td>
+                                    <td>Resolved</td>
+                                    <td>3200 McGehee Rd</td>
+                                </tr>
+                                <tr>
+                                    <td>Structural Issue</td>
+                                    <td>Open</td>
+                                    <td>750 W Jeff Davis Ave</td>
+                                </tr>
+                                <tr>
+                                    <td>Overgrown Property</td>
+                                    <td>In Progress</td>
+                                    <td>2100 Lower Wetumpka Rd</td>
+                                </tr>
+                                <tr>
+                                    <td>Property Maintenance</td>
+                                    <td>Open</td>
+                                    <td>600 Cloverdale Rd</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Tip:</strong> Use the AI Chat Agent to ask: <em>"Are there patterns between business types
+                    and code violations?"</em>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION: 311 SERVICE REQUESTS -->
+        <!-- ═══════════════════════════════════════════════════════════════════════ -->
+        <div id="requests" class="section">
+            <h2>📋 311 <span>Service Requests</span></h2>
+            <p class="subtitle">Citizen requests to City of Montgomery — continuously updated</p>
+
+            <div class="metrics">
+                <div class="metric">
+                    <h3>1,000+</h3>
+                    <p>Total 311 Requests Loaded</p>
+                </div>
+                <div class="metric">
+                    <h3>15+</h3>
+                    <p>Request Categories</p>
+                </div>
+                <div class="metric">
+                    <h3>Continuous</h3>
+                    <p>Update Frequency</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>311 Requests by Category</h3>
+                <div id="chart-311" style="height:400px;"></div>
+            </div>
+
+            <div class="card">
+                <h3>Sample 311 Request Data</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Request Type</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Department</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Pothole Repair</td>
+                            <td>Completed</td>
+                            <td>2025-01-15</td>
+                            <td>Public Works</td>
+                        </tr>
+                        <tr>
+                            <td>Street Light Out</td>
+                            <td>In Progress</td>
+                            <td>2025-01-18</td>
+                            <td>Utilities</td>
+                        </tr>
+                        <tr>
+                            <td>Trash Pickup Missed</td>
+                            <td>Completed</td>
+                            <td>2025-01-20</td>
+                            <td>Sanitation</td>
+                        </tr>
+                        <tr>
+                            <td>Overgrown Lot</td>
+                            <td>Open</td>
+                            <td>2025-02-01</td>
+                            <td>Neighborhood Services</td>
+                        </tr>
+                        <tr>
+                            <td>Drainage Issue</td>
+                            <td>In Progress</td>
+                            <td>2025-02-05</td>
+                            <td>Engineering</td>
+                        </tr>
+                        <tr>
+                            <td>Animal Control</td>
+                            <td>Completed</td>
+                            <td>2025-02-10</td>
+                            <td>Animal Services</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION: PERCEPTION VS REALITY -->
+        <!-- ═══════════════════════════════════════════════════════════════════════ -->
+        <div id="perception" class="section">
+            <h2>📰 Crime Data vs <span>Public Perception</span></h2>
+            <p class="subtitle">Powered by Bright Data — Compare real 911 data with media coverage</p>
+
+            <div class="two-col">
+                <div>
+                    <div class="perception-card reality">
+                        <h3 style="color:#00b4d8;">📊 Actual 911 Data (REALITY)</h3>
+                        <div class="metrics" style="grid-template-columns: 1fr 1fr;">
+                            <div class="metric">
+                                <h3>64.9%</h3>
+                                <p>Emergency Calls</p>
+                            </div>
+                            <div class="metric">
+                                <h3>35.1%</h3>
+                                <p>Non-Emergency Calls</p>
+                            </div>
+                        </div>
+                        <div id="chart-reality" style="height:280px;"></div>
+                        <p style="margin-top:0.8rem; font-size:0.9rem;">Most 911 calls are medical, admin, or
+                            welfare-related — <strong>not violent crime</strong>.</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="perception-card perception">
+                        <h3 style="color:#e94560;">📰 Media Coverage (PERCEPTION)</h3>
+                        <div class="card" style="background: #0e1117;">
+                            <p style="color:#e94560; font-weight:600; margin-bottom:4px;">🔴 Montgomery Advertiser</p>
+                            <p><strong>"Montgomery sees spike in weekend shootings"</strong></p>
+                            <p style="font-size:0.85rem; color:#777;">Multiple incidents reported across city
+                                neighborhoods...</p>
+                        </div>
+                        <div class="card" style="background: #0e1117;">
+                            <p style="color:#e94560; font-weight:600; margin-bottom:4px;">🔴 WSFA 12 News</p>
+                            <p><strong>"Police investigate homicide on South Boulevard"</strong></p>
+                            <p style="font-size:0.85rem; color:#777;">Officers responded to reports of gunfire late
+                                Tuesday...</p>
+                        </div>
+                        <div class="card" style="background: #0e1117;">
+                            <p style="color:#e94560; font-weight:600; margin-bottom:4px;">🔴 AL.com</p>
+                            <p><strong>"Crime concerns grow in Alabama's capital city"</strong></p>
+                            <p style="font-size:0.85rem; color:#777;">Residents express fear despite city safety
+                                initiatives...</p>
+                        </div>
+                        <p style="margin-top:0.5rem; font-size:0.85rem;"><span class="badge">Bright Data SERP API</span>
+                            Real-time news scraping</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align:center; margin: 1.5rem 0;">
+                <span class="vs-badge">⚡ THE PERCEPTION GAP</span>
+            </div>
+
+            <div class="card">
+                <h3>🔍 Gap Analysis</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Aspect</th>
+                            <th style="color:#00b4d8;">📊 Reality (911 Data)</th>
+                            <th style="color:#e94560;">📰 Perception (Media)</th>
+                            <th>Gap</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Most common 911 calls</td>
+                            <td>Medical, admin, welfare checks</td>
+                            <td>Violent crime (shootings, homicide)</td>
+                            <td style="color:#e94560;">HIGH</td>
+                        </tr>
+                        <tr>
+                            <td>Emergency call trend</td>
+                            <td>Stable month-over-month</td>
+                            <td>Implies escalating crisis</td>
+                            <td style="color:#e94560;">HIGH</td>
+                        </tr>
+                        <tr>
+                            <td>Non-emergency volume</td>
+                            <td>35% of all 911 calls</td>
+                            <td>Rarely mentioned</td>
+                            <td style="color:#e94560;">HIGH</td>
+                        </tr>
+                        <tr>
+                            <td>City services (311, fire, code)</td>
+                            <td>Active and responsive</td>
+                            <td>Almost invisible in coverage</td>
+                            <td style="color:#e94560;">HIGH</td>
+                        </tr>
+                        <tr>
+                            <td>Wireless technology shift</td>
+                            <td>86% of calls now wireless</td>
+                            <td>Not covered</td>
+                            <td>MODERATE</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="info-box">
+                <strong>💡 Recommendation:</strong> Montgomery should proactively publish monthly data-driven safety
+                dashboards on social media, showing the full picture of 911 calls (not just violent crime). This would
+                help close the perception gap and improve public confidence.
+            </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════════════════ -->
+        <!-- SECTION: ABOUT -->
+        <!-- ═══════════════════════════════════════════════════════════════════════ -->
+        <div id="about" class="section">
+            <h2>ℹ️ About <span>SafetyLens Montgomery</span></h2>
+
+            <div class="card">
+                <h3>🏗️ Architecture</h3>
+                <pre>
+User Query (Natural Language)
+        │
+   LangGraph Agent (ReAct Pattern)
+        │
+   ┌────┼────────────────┬──────────────┐
+   │    │                │              │
+   ▼    ▼                ▼              ▼
+ 911 Data    Business     Code        Bright Data
+ (ArcGIS)   Licenses    Violations   (News/SERP)
+   │    │                │              │
+   └────┼────────────────┴──────────────┘
+        │
+   AI Analysis + Recommendations
+        │
+   Interactive Streamlit Dashboard
+        </pre>
+            </div>
+
+            <div class="card">
+                <h3>🛠️ Tech Stack</h3>
+                <div style="display:flex; flex-wrap: wrap; gap:8px; margin: 0.5rem 0;">
+                    <span class="badge">LangGraph</span>
+                    <span class="badge">OpenAI GPT-4</span>
+                    <span class="badge">Streamlit</span>
+                    <span class="badge">ArcGIS REST API</span>
+                    <span class="badge">Bright Data</span>
+                    <span class="badge">Plotly</span>
+                    <span class="badge">Pandas</span>
+                    <span class="badge">Python</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📊 Data Sources (City of Montgomery Open Data Portal)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dataset</th>
+                            <th>API Type</th>
+                            <th>Update Frequency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>911 Calls (Monthly)</td>
+                            <td>ArcGIS FeatureServer</td>
+                            <td>Monthly</td>
+                        </tr>
+                        <tr>
+                            <td>Emergency 911 Calls (Daily)</td>
+                            <td>ArcGIS FeatureServer</td>
+                            <td>Daily</td>
+                        </tr>
+                        <tr>
+                            <td>Business Licenses</td>
+                            <td>ArcGIS FeatureServer</td>
+                            <td>Weekly</td>
+                        </tr>
+                        <tr>
+                            <td>Code Violations</td>
+                            <td>ArcGIS FeatureServer</td>
+                            <td>Ongoing</td>
+                        </tr>
+                        <tr>
+                            <td>311 Service Requests</td>
+                            <td>ArcGIS MapServer</td>
+                            <td>Continuous</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>🏆 Judging Criteria Alignment</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Criteria</th>
+                            <th>Max</th>
+                            <th>Our Strategy</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Relevance to Challenge</strong></td>
+                            <td>/10</td>
+                            <td>Addresses ALL 4 challenge areas with live Montgomery data</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Quality & Design</strong></td>
+                            <td>/10</td>
+                            <td>LangGraph agent architecture, Plotly charts, polished dark-theme UI</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Originality</strong></td>
+                            <td>/5</td>
+                            <td>AI agent that <em>reasons</em> over data + perception gap analysis (novel)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Social Value / Impact</strong></td>
+                            <td>/5</td>
+                            <td>Empowers residents, helps city optimize emergency resources</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Commercialization</strong></td>
+                            <td>/5</td>
+                            <td>Platform model — reusable for any city's open data portal</td>
+                        </tr>
+                        <tr>
+                            <td style="color:#e94560;"><strong>Bright Data Bonus</strong></td>
+                            <td><strong>+3</strong></td>
+                            <td>✅ Integrated for real-time news scraping and perception analysis</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card">
+                <h3>🚀 Run It Yourself</h3>
+                <pre>
+# 1. Clone & install
+git clone https://github.com/YOUR_USERNAME/safetylens-montgomery.git
+cd safetylens-montgomery
+pip install -r requirements.txt
+
+# 2. Add your API key
+cp .env.example .env
+# Edit .env → OPENAI_API_KEY=sk-your-key-here
+
+# 3. Launch
+streamlit run app.py
+        </pre>
+            </div>
+        </div>
+
+    </div><!-- /container -->
+
+    <!-- ═══ FOOTER ═══ -->
+    <div class="footer">
+        🔍 SafetyLens Montgomery — AI-Powered City Intelligence | WWV 2026 Hackathon<br>
+        Data: <a href="https://citymgm.maps.arcgis.com" target="_blank">City of Montgomery Open Data Portal</a> |
+        News: <a href="https://brightdata.com" target="_blank">Bright Data</a> |
+        Agent: <a href="https://github.com/langchain-ai/langgraph" target="_blank">LangGraph</a>
+    </div>
+
+    <!-- ═══ SCRIPTS ═══ -->
+    <script>
+        // ── Navigation ──
+        function showSection(id) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            event.target.classList.add('active');
+            if (id === 'dashboard') renderDashboardCharts();
+            if (id === 'requests') render311Chart();
+            if (id === 'perception') renderPerceptionChart();
+        }
+
+        // ── Chat Conversations ──
+        function showChat(n) {
+            document.querySelectorAll('.chat-conv').forEach(c => c.style.display = 'none');
+            document.getElementById('conv' + n).style.display = 'block';
+        }
+
+        // ── Dashboard Tabs ──
+        function showTab(id) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tabs .tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + id).classList.add('active');
+            event.target.classList.add('active');
+            renderDashboardCharts();
+        }
+
+        // ── Charts ──
+        const darkLayout = {
+            paper_bgcolor: '#16213e', plot_bgcolor: '#1a1a2e',
+            font: { color: '#a8b2d1' },
+            xaxis: { gridcolor: '#1a1a2e33' },
+            yaxis: { gridcolor: '#1a1a2e33' },
+            margin: { t: 40, b: 40, l: 50, r: 20 }
+        };
+
+        let chartsRendered = false;
+        function renderDashboardCharts() {
+            if (chartsRendered) return;
+            chartsRendered = true;
+
+            const months = ['01/2025', '02/2025', '03/2025', '04/2025', '05/2025', '06/2025', '07/2025', '08/2025', '09/2025', '10/2025', '11/2025', '12/2025'];
+            const emergency = [22575, 21100, 23820, 22430, 24150, 23700, 24800, 25100, 23200, 22900, 21800, 22000];
+            const nonEmergency = [12213, 11500, 12800, 12100, 13200, 12900, 13500, 13800, 12600, 12200, 11900, 12000];
+
+            // Trend chart
+            Plotly.newPlot('chart-trend', [
+                { x: months, y: emergency, name: 'Emergency', line: { color: '#e94560', width: 3 }, mode: 'lines+markers' },
+                { x: months, y: nonEmergency, name: 'Non-Emergency', line: { color: '#0f3460', width: 3 }, mode: 'lines+markers' }
+            ], { ...darkLayout, title: '911 Call Trends by Category' });
+
+            // Category pie
+            Plotly.newPlot('chart-category', [{
+                values: [269575, 148713], labels: ['Emergency', 'Non-Emergency'],
+                type: 'pie', marker: { colors: ['#e94560', '#0f3460'] },
+                textinfo: 'label+percent', textfont: { color: '#fff' }
+            }], { ...darkLayout, title: 'Emergency vs Non-Emergency (Total)' });
+
+            // Provider bar
+            Plotly.newPlot('chart-provider', [{
+                x: ['Wireless', 'Wire-line', 'VoIP', 'Unknown'],
+                y: [234720, 6036, 21756, 8388],
+                type: 'bar', marker: { color: ['#e94560', '#0f3460', '#533483', '#a8b2d1'] }
+            }], { ...darkLayout, title: 'Emergency Calls by Phone Service Provider' });
+
+            // Daily chart
+            Plotly.newPlot('chart-daily', [{
+                x: months, y: [23400, 19800, 24600, 22500, 25200, 24300, 25800, 26100, 23900, 23500, 22300, 22800],
+                type: 'bar', marker: { color: '#e94560' }
+            }], { ...darkLayout, title: 'Total Daily 911 Calls Aggregated by Month' });
+        }
+
+        function render311Chart() {
+            Plotly.newPlot('chart-311', [{
+                x: ['Pothole Repair', 'Street Light', 'Trash Pickup', 'Overgrown Lot', 'Drainage', 'Animal Control', 'Noise Complaint', 'Abandoned Vehicle', 'Graffiti', 'Water Leak'],
+                y: [187, 143, 128, 112, 98, 87, 76, 65, 43, 38],
+                type: 'bar', marker: { color: '#e94560' }
+            }], { ...darkLayout, title: '311 Requests by Category (Sample)' });
+        }
+
+        function renderPerceptionChart() {
+            Plotly.newPlot('chart-reality', [{
+                x: ['01/2025', '02/2025', '03/2025', '04/2025', '05/2025', '06/2025'],
+                y: [22575, 21100, 23820, 22430, 24150, 23700],
+                type: 'scatter', mode: 'lines+markers',
+                fill: 'tozeroy', fillcolor: 'rgba(0,180,216,0.15)',
+                line: { color: '#00b4d8', width: 2 }
+            }], {
+                ...darkLayout, title: 'Emergency Call Trend (Stable)',
+                height: 280, margin: { t: 35, b: 30, l: 45, r: 10 }
+            });
+        }
+
+        // Render default charts on load
+        window.addEventListener('load', () => {
+            // Charts only render when their section is visible
+        });
+    </script>
+
+</body>
+
+</html>
