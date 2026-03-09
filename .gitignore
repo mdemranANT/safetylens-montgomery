@@ -2,3 +2,4 @@
 __pycache__/
 *.pyc
 .streamlit/secrets.toml
+VIDEO_SCRIPT.md
